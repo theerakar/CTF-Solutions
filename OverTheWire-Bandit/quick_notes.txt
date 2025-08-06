@@ -1,0 +1,29 @@
+# Bandit Wargame Quick Notes
+
+## Level 0 -> 1
+- Initial password for bandit0 is 'bandit0'
+- To find the password for bandit1, ran `ls` to find the 'readme' file.
+- Used `cat readme` to read the file's content.
+- Password for bandit1: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+
+## Level 1 -> 2
+- Logged in with the password for bandit1.
+- Found a file named '-' using `ls`.
+- Had to use `cat -- -` or `cat ./-` to read the file.
+- Password for bandit2: [Paste the password you found here]
+
+## Level 2 -> 3
+- ## Level 2 -> 3
+- The password was in a file named '--spaces in this filename--'.
+- The filename had a leading dash and spaces.
+- To read it, I had to combine both solutions: a double dash `--` to stop option parsing and quotes `"` to handle the spaces.
+- The command was: `cat -- "--spaces in this filename--"`
+- Password for bandit3: [MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx]
+
+
+## Level 3 -> 4
+- The password was in a directory called 'inhere'.
+- Had to use `ls inhere/` to look inside, but nothing showed up.
+- Used `ls -a inhere/` to find the hidden file: '...Hiding-From-You'.
+- Used `cat inhere/...Hiding-From-You` to get the password.
+- Password for bandit4: 2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
