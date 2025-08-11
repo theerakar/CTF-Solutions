@@ -27,3 +27,98 @@
 - Used `ls -a inhere/` to find the hidden file: '...Hiding-From-You'.
 - Used `cat inhere/...Hiding-From-You` to get the password.
 - Password for bandit4: 2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+
+
+## Level 4 -> 5
+- The password was in a directory called 'inhere' with 10 files.
+- The goal was to find the "human-readable" file.
+- I used the `file` command to check the type of each file.
+- The command `for file in inhere/*; do file "$file"; done` helped me find that 'inhere/-file07' was 'ASCII text'.
+- I used `cat -- inhere/-file07` to get the password.
+- Password for bandit5: 4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
+
+## Level 5 -> 6
+- The password was in a file under 'inhere' with specific properties: human-readable, 1033 bytes, and not executable.
+- I used the `find` command to locate the file.
+- The command was `find inhere/ -type f -size 1033c ! -executable`.
+- It found the file: `inhere/maybehere07/.file2`.
+- I used `cat` to read the file and get the password.
+- Password for bandit6: HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
+
+## Level 6 -> 7
+- The password was on the server, with specific properties: owned by user bandit7, group bandit6, and 33 bytes in size.
+- I used the `find` command starting from the root directory `/`.
+- The command was `find / -user bandit7 -group bandit6 -size 33c 2>/dev/null`.
+- It found the file: `/var/lib/dpkg/info/bandit7.password`.
+- I used `cat` to read the file and get the password.
+- Password for bandit7: morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+
+## Level 7 -> 8
+- The password was in `data.txt` next to the word 'millionth'.
+- The file was too big to read with `cat` alone.
+- I used the `grep` command to search for the specific word.
+- The command was `grep "millionth" data.txt`.
+- The password was `dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc`.
+
+## Level 8 -> 9
+- The password was the one line in `data.txt` that occurred only once.
+- The file was large, so I used a pipeline with `sort` and `uniq`.
+- `sort data.txt` organized all the lines, grouping duplicates together.
+- `uniq -u` then filtered for the single unique line.
+- The full command was: `sort data.txt | uniq -u`.
+- Password for bandit9: 4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
+
+
+## Level 9 -> 10
+- The password was in a `data.txt` file, which was a binary file.
+- The password was a human-readable string preceded by '=='.
+- I used `strings data.txt` to pull out all the readable text.
+- I then piped that output to `grep "=="` to find the line with the password.
+- The command was: `strings data.txt | grep "=="`.
+- Password for bandit10: FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+
+## Level 10 -> 11
+- The password was in `data.txt` and was encoded in Base64.
+- I used `cat data.txt` and piped the output to the `base64 -d` command.
+- The command was: `cat data.txt | base64 -d`.
+- My mistake: I initially typed `base 64`, but the command is `base64` as one word.
+- Password for bandit11: dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
+
+
+## Level 11 -> 12
+- The password was in `data.txt` and was ROT13 encoded.
+- I used the `tr` (translate) command to decode it.
+- The command was: `cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'`.
+- Password for bandit12: 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
+
+
+## Level 12 -> 13
+- The password was in a `data.txt` file which was a hexdump of a repeatedly compressed file.
+- Used `mktemp -d` for a temporary working directory.
+- Used `xxd -r` to reverse the hexdump.
+- Repeatedly used `file`, `zcat`, `bzip2 -df`, and `tar -xf` to decompress and extract the password.
+- The decompression loop was: gzip -> bzip2 -> tar -> bzip2 -> tar -> gzip -> plain text.
+- Password for bandit13: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+
+
+## Level 13 -> 14
+- The password for bandit14 was on the same machine but accessible only via SSH key.
+- Used `mktemp -d` and `cp` to get a writable copy of the private key.
+- Used `chmod 400` to set the correct permissions on the key copy.
+- The final `ssh` command was complex, including multiple flags to fix permission errors and specify the correct port.
+- The command was: `ssh bandit14@localhost -i <temp_dir>/sshkey.private -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 2220`
+- Password for bandit14: MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
+
+## Level 14 -> 15
+- The password for bandit15 was retrieved by sending the current password to a network service.
+- Used `nc` (netcat) to connect to `localhost` on port `30000`.
+- The command was: `nc localhost 30000`
+- Sent the current password (`MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS`) to get the next one.
+- Password for bandit15: 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+
+## Level 15 -> 16
+- The password for bandit16 was retrieved by submitting the current password to a network service using SSL/TLS encryption.
+- Used `openssl s_client` to connect to `localhost` on port `30001`.
+- The command was: `openssl s_client -connect localhost:30001`
+- Sent the current password (`8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo`) to get the next one.
+- Password for bandit16: kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
